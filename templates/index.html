@@ -1,10 +1,88 @@
 {% extends "base.html" %} {% block title %}Flasky - Home{% endblock %} {% block
 page_content %}
+
 <div class="page-header">
+  {% if submitted %}
+
   <h1>Hello {{ name }}!</h1>
 
-  <p>The local date and time is {{ moment(current_time).format('LLLL') }}.</p>
+  <p>Your email address is {{ email }}.</p>
 
-  <p>That was {{ moment(current_time).fromNow(refresh=True) }}</p>
+  {% else %}
+
+  <h1>Hello {{ name }}!</h1>
+
+  {% endif %}
+
+  <p>The local date and time is {{ moment(current_time).format('LLLL') }}.</p>
 </div>
+
+<form method="POST" id="user-form">
+  <div class="form-group">
+    <label for="username"> What is your name? </label>
+
+    <input
+      type="text"
+      class="form-control"
+      id="username"
+      name="username"
+      placeholder="Enter your first name or first and last name"
+      required
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="email"> What is your UofT email? </label>
+
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      name="email"
+      placeholder="Enter your UofT email address"
+      required
+    />
+
+    <span id="email-error" class="text-danger" style="display: none">
+      Please enter a UofT email address.
+    </span>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script>
+  const emailInput = document.getElementById("email");
+  const emailError = document.getElementById("email-error");
+  const form = document.getElementById("user-form");
+
+  function validateUofTEmail() {
+    const email = emailInput.value.trim();
+
+    if (email === "") {
+      emailError.style.display = "none";
+      emailInput.classList.remove("has-error");
+      return true;
+    }
+
+    if (!email.toLowerCase().includes("utoronto")) {
+      emailError.style.display = "block";
+      emailInput.classList.add("has-error");
+      return false;
+    }
+
+    emailError.style.display = "none";
+    emailInput.classList.remove("has-error");
+    return true;
+  }
+
+  emailInput.addEventListener("input", validateUofTEmail);
+
+  form.addEventListener("submit", function (event) {
+    if (!validateUofTEmail()) {
+      event.preventDefault();
+    }
+  });
+</script>
+
 {% endblock %}
