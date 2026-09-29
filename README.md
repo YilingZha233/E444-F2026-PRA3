@@ -23,3 +23,6 @@ Screenshot of the Chapter 3 Flask application:
 ## Activity 1.4
 ![Activity 1.3 example2](1-4_ex1.png)
 ![Activity 1.3 example3](1-4_ex2.png)
+
+## Activity 2
+![Activity 2.5 example3](2-5.png)
